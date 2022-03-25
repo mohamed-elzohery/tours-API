@@ -1,6 +1,7 @@
 const tourRouter = require('express').Router();
 const adjustRes = require('../../middlewares/adjustRes');
 const Tour = require('../../models/Tour');
+const {authGuard, authorize} = require('../../middlewares/authGuard')
 
 const {getOneTour,
     getAllTours,
@@ -11,12 +12,12 @@ const {getOneTour,
 
 tourRouter.route('/')
            .get(adjustRes(Tour), getAllTours)
-           .post(createOneTour);
+           .post(authGuard, authorize('admin'), createOneTour);
 
 tourRouter.route('/:id')
            .all(getTourById)
            .get(getOneTour)
-           .delete(deleteTour)
-           .patch(updateTour);
+           .delete(authGuard, authorize('admin'), deleteTour)
+           .patch(authGuard, authorize('admin'), updateTour);
 
 module.exports = tourRouter;
