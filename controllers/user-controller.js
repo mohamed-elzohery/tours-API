@@ -42,7 +42,6 @@ const deleteUser = catchAsync(async (req, res) => {
 const uploadPhoto = catchAsync(async (req, res, next) => {
     if(!req.files) return next(new ErrorResponse(400, 'Please select a file to upload'));
     const file = req.files.photo;
-    console.log(req.files.photo);
 
     //  check if file type is photo
     if(!file.mimetype.startsWith('image')){
@@ -59,11 +58,11 @@ const uploadPhoto = catchAsync(async (req, res, next) => {
 
     await file.mv(`${process.env.UPLOAD_PATH}/${file.name}`);
 
-    const updatedUser = await User.updateOne(req.user, {photo: file.name}, {new: true});
+    await User.updateOne(req.user, {photo: file.name}, {new: true});
 
     res.json({
         success: true,
-        data: updatedUser,
+        data: req.user,
         message: 'Photo is updated successfully'
     });
 });
