@@ -4,15 +4,13 @@ const ErrorResponse = require('../utils/ErrorResponse');
 
 const loginController = catchAsync(async (req, res, next) => {
     const { email , password} = req.body;
-    console.log(req.body)
     if(!(email && password)){
         return next(new ErrorResponse(400, 'missing email or password'));
     }
     
     const user = await User.findOne({email});
-    console.log(await user.isPasswordMatched(password));
     if(user === null || !await user.isPasswordMatched(password)){
-        return next(new ErrorResponse(401, 'Authentication Failed'));
+        return next(new ErrorResponse(401, 'email or password are not valid'));
     }
 
     const token = user.createToken();

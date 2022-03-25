@@ -1,6 +1,5 @@
 const adjustRes = (model) => async(req, res, next) => {
     let query;
-    console.log(req.query)
     //  copy req query
     const reqQuery = {...req.query};
 
@@ -67,6 +66,7 @@ const adjustRes = (model) => async(req, res, next) => {
         pagination,
         data: results
     };
+
 
     next();
 }

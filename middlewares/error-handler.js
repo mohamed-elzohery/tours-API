@@ -2,7 +2,6 @@ const ErrorResponse = require("../utils/ErrorResponse");
 
 const errorHandler = (err, req, res, next) => {
     let {message, statusCode} = err;
-    console.log(err)
     const error = new ErrorResponse( statusCode || 500, message || 'Server Error');
     //handle non-mongoose-ObjectID-like values.
     if(err.name && err.name === 'CastError'){

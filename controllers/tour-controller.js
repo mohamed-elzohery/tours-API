@@ -6,7 +6,6 @@ const getTourById = catchAsync(async(req, res, next) => {
     const {id} = req.params;
     const tour = await Tour.findById(id);
     if(tour === null){
-        console.log("no id found")
         next(new ErrorResponse(404, 'user not found'));
     }
     req.tour = tour;

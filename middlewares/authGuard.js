@@ -9,15 +9,12 @@ const authGuard = catchAsync(async (req, res, next) => {
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer ')){
         token = req.headers.authorization.split(' ')[1];
     }
-    console.log(token)
     if(!token) return next(new ErrorResponse(401, 'Unauthenticated access'));
 
 
     const decodedToken = jwt.decode(token, process.env.JWT_KEY);
-    console.log(decodedToken)
 
     const user = await User.findById(decodedToken.id);
-    console.log(user)
 
     if(user === null){
         return next(new ErrorResponse(401, 'Unauthenticated access'));
