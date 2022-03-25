@@ -1,7 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
+const path = require('path');
 
+const fileuplaod = require('express-fileupload');
 //Adding env variables path
 dotenv.config('.env');
 
@@ -18,7 +20,11 @@ const app = express();
 
 //Middlwares
 app.use(express.json());
+app.use(fileuplaod());
 app.use(morgan('dev'));//temp
+
+//Serving static files
+app.use(express.static(path.join(__dirname, '/public')));
 
 //Routing 
 app.use('/api/v1/users', userRouter);

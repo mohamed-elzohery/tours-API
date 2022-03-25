@@ -1,8 +1,10 @@
 const usersRouter = require('express').Router();
 const {authGuard, authorize} = require('../../middlewares/authGuard')
-const {getAllUsers, getOneUser, createOneUser, deleteUser, updateUser, getUserById} = require('../../controllers/user-controller');
+const {getAllUsers, getOneUser, createOneUser, deleteUser, updateUser, getUserById, uploadPhoto} = require('../../controllers/user-controller');
 
-usersRouter.use(authGuard, authorize('admin'));
+usersRouter.use(authGuard);
+usersRouter.patch( '/:id/photo', getUserById, uploadPhoto);
+usersRouter.use(authorize('admin'));
 
 usersRouter.route('/')
            .get(getAllUsers)
