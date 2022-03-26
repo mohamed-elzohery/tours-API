@@ -3,7 +3,7 @@ const {authGuard, authorize} = require('../../middlewares/authGuard')
 const {getAllUsers, getOneUser, createOneUser, deleteUser, updateUser, getUserById, uploadPhoto} = require('../../controllers/user-controller');
 
 usersRouter.use(authGuard);
-usersRouter.patch( '/:id/photo', getUserById, uploadPhoto);
+usersRouter.patch( '/:id/photo', uploadPhoto);
 usersRouter.use(authorize('admin'));
 
 usersRouter.route('/')

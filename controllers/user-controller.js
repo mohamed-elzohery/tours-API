@@ -42,7 +42,11 @@ const deleteUser = catchAsync(async (req, res) => {
 const uploadPhoto = catchAsync(async (req, res, next) => {
     if(!req.files) return next(new ErrorResponse(400, 'Please select a file to upload'));
     const file = req.files.photo;
-
+    
+    //  check photo ownership
+    if(req.user._id.toString() !== req.params.id && req.user.role !== 'admin'){
+        return next(new ErrorResponse(401, 'You are not allowed to change this photo'));
+    }
     //  check if file type is photo
     if(!file.mimetype.startsWith('image')){
         return next(new ErrorResponse(400, 'Please select a photo file to upload'));
